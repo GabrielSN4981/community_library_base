@@ -1,4 +1,4 @@
-import db from "../config/database.js ";
+import db from "../config/database.js";
 // código em sql
 db.run(` 
     CREATE TABLE IF NOT EXISTS users (
@@ -12,7 +12,7 @@ db.run(`
 
 // função para criar usuário
 function createUserRepository(newUser) {
-  return new Promise((res, rej) => {
+  return new Promise((resolve, reject) => {
     const { username, email, password, avatar } = newUser;
     // tudo maiusculo é comando reservado do sql
     db.run(
@@ -26,9 +26,9 @@ function createUserRepository(newUser) {
       // callback para tratar o resultado da operação
       (err) => {
         if (err) {
-          rej(err);
+          reject(err);
         } else {
-          res({ message: "Usuário criado com sucesso!" });
+          resolve({ id: this.lastID, ...newUser }); // retorna o id do usuário criado
         }
       }
     );
