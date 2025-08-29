@@ -35,4 +35,25 @@ function createUserRepository(newUser) {
   });
 }
 
-export default { createUserRepository };
+function findUserByEmailRepository(email) {
+  return new Promise((resolve, reject) => {
+    db.get(
+      `
+        SELECT id, username, email, avatar 
+        FROM users 
+        WHERE email = ?
+      `,
+      [email], // substitui o ? pelo email, esses dados no array são passados de forma sequencial
+      (err, row) => {
+        // envia row porque é aonde vem o resultado da consulta
+        if (err) {
+          reject(err);
+        } else {
+          resolve(row); // row é o usuário encontrado ou undefined se não encontrar
+        }
+      }
+    );
+  });
+}
+
+export default { createUserRepository, findUserByEmailRepository };
