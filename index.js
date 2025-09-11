@@ -1,11 +1,14 @@
 import express from "express";
-import userRouters from "./src/routes/user.routes.js";
+import { router } from "./src/routers/index.js";
+import "dotenv/config";
+import "./src/services/cron.service.js";
+
+const port = process.env.PORT || 3000;
 
 const app = express();
-
 app.use(express.json());
-app.use(userRouters);
+app.use(router);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
